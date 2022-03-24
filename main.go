@@ -3,29 +3,30 @@ package main
 import (
 	"fmt"
 	"math/rand"
+
+	"golang.org/x/exp/constraints"
 )
 
-type Tree struct {
-	root *Node
+type Tree[T constraints.Ordered] struct {
+	root *Node[T]
 }
 
-type Node struct {
-	// Has to be comparable
-	key   int
-	left  *Node
-	right *Node
+type Node[T constraints.Ordered] struct {
+	key   T
+	left  *Node[T]
+	right *Node[T]
 }
 
 // Tree
-func (t *Tree) insert(value int) {
+func (t *Tree[T]) insert(value T) {
 	if t.root == nil {
-		t.root = &Node{key: value}
+		t.root = &Node[T]{key: value}
 	} else {
 		t.root.insert(value)
 	}
 }
 
-func (t *Tree) remove(value int) {
+func (t *Tree[T]) remove(value T) {
 	if t.root == nil {
 		return
 	}
@@ -34,23 +35,23 @@ func (t *Tree) remove(value int) {
 }
 
 // Node
-func (n *Node) insert(value int) {
+func (n *Node[T]) insert(value T) {
 	if value <= n.key {
 		if n.left == nil {
-			n.left = &Node{key: value}
+			n.left = &Node[T]{key: value}
 		} else {
 			n.left.insert(value)
 		}
 	} else {
 		if n.right == nil {
-			n.right = &Node{key: value}
+			n.right = &Node[T]{key: value}
 		} else {
 			n.right.insert(value)
 		}
 	}
 }
 
-func (n *Node) remove(node *Node, value int) *Node {
+func (n *Node[T]) remove(node *Node[T], value T) *Node[T] {
 	switch {
 	case node == nil:
 		return nil
@@ -89,7 +90,7 @@ func (n *Node) remove(node *Node, value int) *Node {
 }
 
 // Good for copying the tree
-func preOrder(n *Node) {
+func preOrder[T constraints.Ordered](n *Node[T]) {
 	if n == nil {
 		return
 	} else {
@@ -100,7 +101,7 @@ func preOrder(n *Node) {
 }
 
 // Good for deleting the tree
-func postOrder(n *Node) {
+func postOrder[T constraints.Ordered](n *Node[T]) {
 	if n == nil {
 		return
 	} else {
@@ -111,7 +112,7 @@ func postOrder(n *Node) {
 }
 
 // Sorted
-func inOrder(n *Node) {
+func inOrder[T constraints.Ordered](n *Node[T]) {
 	if n == nil {
 		return
 	} else {
@@ -121,7 +122,7 @@ func inOrder(n *Node) {
 	}
 }
 
-func reverseOrder(n *Node) {
+func reverseOrder[T constraints.Ordered](n *Node[T]) {
 	if n == nil {
 		return
 	} else {
@@ -132,7 +133,7 @@ func reverseOrder(n *Node) {
 }
 
 func main() {
-	var t Tree
+	var t Tree[int]
 
 	for i := 0; i < 30; i++ {
 		t.insert(rand.Intn(256))

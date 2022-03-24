@@ -1,10 +1,5 @@
 module bst
 
-go 1.17
+go 1.18
 
-require github.com/kr/pretty v0.3.0
-
-require (
-	github.com/kr/text v0.2.0 // indirect
-	github.com/rogpeppe/go-internal v1.6.1 // indirect
-)
+require golang.org/x/exp v0.0.0-20220324144552-032f0433de08
